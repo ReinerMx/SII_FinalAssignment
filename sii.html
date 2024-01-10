@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Leaflet Karte</title>
 
-    <!-- Füge Leaflet CSS hinzu -->
+    <!-- Fügt das Website-Icon (Favicon) hinzu -->
+    <link rel="icon" type="image/png" href="img/weather.png" />
+
+    <!-- Fügt Leaflet CSS hinzu -->
     <link
       rel="stylesheet"
       href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
     />
-    <!-- Bindet Cities.js ein-->
-    <!-- <script src="cities.js"></script> -->
 
-    <!-- Füge Leaflet JavaScript hinzu -->
+    <!-- Fügt Leaflet JavaScript hinzu -->
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 
     <style>
@@ -145,6 +146,38 @@
           .addTo(mymap)
           .bindPopup(cities.name)
           .openPopup();
+      });
+
+      // Funktion, um Wetterdaten von OpenMeteo API abzurufen
+      async function getWeatherData(latitude, longitude) {
+        try {
+          const apiKey = "DEIN_OPENMETEO_API_KEY"; // Ersetze DEIN_OPENMETEO_API_KEY durch deinen eigenen API-Schlüssel von OpenMeteo
+          const apiUrl = `https://api.openmeteo.io/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=1&timezone=Europe/Berlin&current_weather=true&timezone_offset=true&app_id=${apiKey}`;
+
+          const response = await fetch(apiUrl);
+          const data = await response.json();
+          return data;
+        } catch (error) {
+          console.error("Fehler beim Abrufen der Wetterdaten:", error);
+        }
+      }
+
+      // Beispiel-Stadt (Koordinaten von Köln)
+      const latitude = 50.9375;
+      const longitude = 6.9603;
+
+      // Wetterdaten abrufen
+      getWeatherData(latitude, longitude).then((weatherData) => {
+        const currentWeather = weatherData.current_weather;
+        console.log("Temperatur:", currentWeather.temperature);
+        console.log(
+          "Niederschlagswahrscheinlichkeit:",
+          currentWeather.precipitation_probability
+        );
+        console.log("Windgeschwindigkeit:", currentWeather.wind_speed);
+        console.log("Windrichtung:", currentWeather.wind_direction);
+        console.log("Luftfeuchtigkeit:", currentWeather.humidity);
+        console.log("Wetterwarnungen:", weatherData.alerts); // Falls verfügbar, ansonsten kann dieser Teil leer sein
       });
 
       L.polygon([
