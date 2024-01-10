@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaflet Karte</title>
+
+    <!-- Füge Leaflet CSS hinzu -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    />
+    <!-- Bindet Cities.js ein-->
+    <!-- <script src="cities.js"></script> -->
+
+    <!-- Füge Leaflet JavaScript hinzu -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+
+    <style>
+      /* Stil für die Karte */
+      #map {
+        height: 80vh; /* This sets the height to 80% of the viewport height */
+        min-height: 800px; /* This ensures that the element is at least 800px tall */
+        max-height: 2000px; /* This sets a maximum height of 1000px, if needed */
+        width: 98%;
+        border: 18px solid #3e3f3c; /* Grauer Rahmen */
+        margin: 0 auto; /* Zentriere das Element horizontal */
+      }
+      /* Stil der Website*/
+      body {
+        color: #ffffff; /* Weiß */
+        background-color: #7ab41d; /* Farbwert in Hexadezimal */
+        font-family: Graphik;
+      }
+    </style>
+  </head>
+  <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <header style="background-color: #3e3f3c">
+      <h1>SII - Final Assignment</h1>
+    </header>
+
+    <nav>
+      <ul>
+        <li>
+          <a>Maximilian Reiner, Lena Long, Andreas Suffert, Dominik Waldmann</a>
+        </li>
+      </ul>
+    </nav>
+    <main>
+      <h2>Wetterdaten</h2>
+      <!-- Hier wird die Karte eingefügt -->
+      <div id="map"></div>
+    </main>
+
+    <footer id="footer">
+      <div class="footer-content">
+        <p>
+          &copy; SII - SPATIAL INFORMATION INFRASTRUCTURE WISE 2023/24, SIMON
+          JIRKA, ALBERT REMKE
+        </p>
+      </div>
+      <style>
+        #footer {
+          position: absolute;
+          bottom: 0;
+          width: 100%;
+          height: 30px; /* oder die gewünschte Höhe des Footers */
+          background-color: #3e3f3c; /* Farbwert in Hexadezimal */
+          color: #ffffff; /* Textfarbe */
+          border: 5px solid #7ab41d; /* Set a border with a width of 1px, a solid style, and a gray color */
+        }
+        .footer-content {
+          display: flex;
+          justify-content: center; /* Horizontal zentrieren */
+          align-items: center; /* Vertikal zentrieren */
+          height: 100%;
+        }
+        .footer-content p {
+          margin: 0; /* Entfernt den Standardabstand des Absatzes */
+        }
+      </style>
+    </footer>
+
+    <!-- Add jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
+    <script>
+      // Add AJAX request for data
+      var counties = $.ajax({
+        url: "https://gist.githubusercontent.com/maptastik/df8e483d5ac1c6cae3dc4a7c02ea9039/raw/9cd46849bddcfa90aab240772a12275408d6d8d0/kyCounties.geojson",
+        dataType: "json",
+        success: console.log("County data successfully loaded."),
+        error: function (xhr) {
+          alert(xhr.statusText);
+        },
+      });
+
+      // Lade die GeoJSON-Datei und füge sie zur Karte hinzu
+      $.getJSON("data.geojson", function (data) {
+        L.geoJSON(data).addTo(mymap);
+      });
+
+      // JavaScript-Code für die Karte
+      var mymap = L.map("map").setView([51.5, 7.5], 8); // Lade die Karte und setze die Koordinaten und Zoomstufe
+
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        // Hinzufügen einer Kartenfliese (Tile Layer) von OpenStreetMap
+        maxZoom: 19,
+      }).addTo(mymap);
+
+      // Koordinaten und Städtenamen für Städte in NRW mit über 100.000 Einwohnern
+      var cities = [
+        { name: "Köln", coordinates: [50.9375, 6.9603] },
+        { name: "Düsseldorf", coordinates: [51.2277, 6.7735] },
+        { name: "Dortmund", coordinates: [51.5136, 7.4653] },
+        { name: "Essen", coordinates: [51.4556, 7.0116] },
+        { name: "Duisburg", coordinates: [51.4344, 6.7623] },
+        { name: "Bochum", coordinates: [51.4812, 7.2195] },
+        { name: "Wuppertal", coordinates: [51.2647, 7.1784] },
+        { name: "Bielefeld", coordinates: [52.0291, 8.5424] },
+        { name: "Bonn", coordinates: [50.7374, 7.0982] },
+        { name: "Münster", coordinates: [51.9607, 7.6261] },
+        { name: "Gelsenkirchen", coordinates: [51.5177, 7.0857] },
+        { name: "Mönchengladbach", coordinates: [51.1805, 6.4428] },
+        { name: "Aachen", coordinates: [50.7753, 6.0839] },
+        { name: "Krefeld", coordinates: [51.3397, 6.5853] },
+        { name: "Oberhausen", coordinates: [51.4964, 6.8638] },
+        { name: "Hagen", coordinates: [51.3671, 7.4636] },
+        { name: "Hamm", coordinates: [51.6736, 7.8155] },
+        { name: "Herne", coordinates: [51.5388, 7.2257] },
+        { name: "Mülheim an der Ruhr", coordinates: [51.4309, 6.8783] },
+        { name: "Solingen", coordinates: [51.1734, 7.0845] },
+        { name: "Leverkusen", coordinates: [51.0451, 7.0193] },
+        { name: "Neuss", coordinates: [51.2042, 6.6879] },
+        { name: "Paderborn", coordinates: [51.7191, 8.7544] },
+        { name: "Recklinghausen", coordinates: [51.6141, 7.1976] },
+        { name: "Bottrop", coordinates: [51.5215, 6.9443] },
+      ];
+
+      // Marker für alle Städte hinzufügen
+      cities.forEach(function (cities) {
+        L.marker(cities.coordinates)
+          .addTo(mymap)
+          .bindPopup(cities.name)
+          .openPopup();
+      });
+
+      L.polygon([
+        [51.96221816444259, 7.6126716133007335],
+        [51.9636456925131, 7.61282606476621],
+        [51.964914568186884, 7.612877548588102],
+        [51.96508903578294, 7.610715228077822],
+        [51.9658979221274, 7.608990520051464],
+        [51.964660795925454, 7.608089553171851],
+        [51.963788442819606, 7.606158909859886],
+        [51.96290021130338, 7.607857875974446],
+        [51.9615043833586, 7.6085271656565965],
+        [51.96236091929535, 7.610509292790425],
+        [51.96221816444259, 7.6126716133007335],
+      ])
+        .bindPopup("Botanischer Garten")
+        .addTo(mymap);
+
+      L.polygon([
+        [51.96323551095574, 7.625127684937695],
+        [51.963201876590716, 7.6244544523679565],
+        [51.96279826223511, 7.62424520440112],
+        [51.96218162217994, 7.624136031551529],
+        [51.96206389902332, 7.626001067725099],
+        [51.961951781443844, 7.626929036943778],
+        [51.9626413001167, 7.627001818843496],
+        [51.96294401228147, 7.627010916580929],
+        [51.96307855036514, 7.627065503004417],
+        [51.96320187658705, 7.626838059569138],
+        [51.96323551095574, 7.625127684937695],
+      ])
+        .bindPopup("Domplatz")
+        .addTo(mymap);
+
+      L.polygon([
+        [51.957328650911506, 7.61651800923255],
+        [51.95769524753493, 7.6137666561728565],
+        [51.955953886875704, 7.610866581325666],
+        [51.95416663060763, 7.608040867372324],
+        [51.952333473248956, 7.606033123248807],
+        [51.94985859193403, 7.6031330484016735],
+        [51.94875860083948, 7.60000989087456],
+        [51.94674188042413, 7.5965892897737035],
+        [51.945550139370226, 7.596812372453655],
+        [51.943808307022096, 7.595473876371329],
+        [51.94298320493235, 7.59465590654267],
+        [51.942799846851045, 7.595696959051281],
+        [51.943762468415144, 7.598820116578452],
+        [51.94568764956907, 7.600456056235714],
+        [51.94678771598589, 7.60119966517064],
+        [51.949583596689735, 7.605140792526413],
+        [51.95260845163054, 7.608412671841023],
+        [51.953708348294015, 7.611238385793172],
+        [51.954808217977785, 7.614882069575259],
+        [51.95572475543807, 7.616964174593733],
+        [51.95673292500507, 7.617856505314904],
+        [51.9571453514755, 7.617782144422421],
+        [51.957328650911506, 7.61651800923255],
+      ])
+        .bindPopup("Aasee")
+        .addTo(mymap);
+
+      L.polygon([
+        [51.917744409502916, 7.65229241448796],
+        [51.91689812250175, 7.650546149679968],
+        [51.915282439385294, 7.6502966832791515],
+        [51.913512814977395, 7.652541880888776],
+        [51.912589504991615, 7.657157009309003],
+        [51.912281730777494, 7.659776406520422],
+        [51.91174312082691, 7.66164740452831],
+        [51.91335893129798, 7.670628194967975],
+        [51.91889841152394, 7.6688819301599835],
+        [51.92159096755469, 7.668133530957448],
+        [51.9207447530608, 7.6631442029354275],
+        [51.91974466082101, 7.657406475709848],
+        [51.91889841152394, 7.655286011301143],
+        [51.917744409502916, 7.65229241448796],
+      ])
+        .bindPopup("Naturschutzgebiet Große Lodde")
+        .addTo(mymap);
+
+      L.polygon([
+        [51.912503127096755, 7.748568180632873],
+        [51.91328840395576, 7.746522775887456],
+        [51.91595393456683, 7.745643197541739],
+        [51.91777773605614, 7.738250684487014],
+        [51.91443387895788, 7.731073517381191],
+        [51.90956118305425, 7.731750796655575],
+        [51.902185395339274, 7.736012031852027],
+        [51.90090653964546, 7.740959169646743],
+        [51.89728157566063, 7.752983430900343],
+        [51.89724373000416, 7.757321775672324],
+        [51.90139499350764, 7.760087168158094],
+        [51.90889610209527, 7.75649637282973],
+        [51.9116209482595, 7.755284362316672],
+        [51.912503127096755, 7.748568180632873],
+      ])
+        .bindPopup("Naturschutzgebiet Wollbecker Tiergarten")
+        .addTo(mymap);
+    </script>
+  </body>
+</html>
