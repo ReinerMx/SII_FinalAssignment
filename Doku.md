@@ -2,12 +2,24 @@
 
 #### TODO's:
 
-Einbindung des WMS / WFS:
+# Einbindung des WMS / WFS:
 
 - [Verwaltungskarten und Grenzen](https://www.bezreg-koeln.nrw.de/geobasis-nrw/produkte-und-dienste/verwaltungskarten-und-grenzen/digitale-verwaltungsgrenzen)
   - WMS Verwaltungsgrenzen DVG2: [Link zum WMS](http://www.wms.nrw.de/geobasis/wms_nw_dvg)
   - WFS Verwaltungsgrenzen DVG1 und DVG2: [Link zum WFS](https://www.wfs.nrw.de/geobasis/wfs_nw_dvg)
     - siehe "dgv1" oder "dgv2" Ordner für bereits heruntergeladene NRW-Umrisse
+
+# Strukturierung des Codes
+
+- Teile des Codes könnten noch ausgegliedert werden in eigene Dateien (z.B. Geojson-Polygon, JS-Funktionen)
+
+# Popups füllen mit Wetterdaten
+
+#
+
+#
+
+#
 
 #### Aufgabenstellung:
 
