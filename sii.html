@@ -151,7 +151,7 @@
       // Funktion, um Wetterdaten von OpenMeteo API abzurufen
       async function getWeatherData(latitude, longitude) {
         try {
-          const apiKey = "DEIN_OPENMETEO_API_KEY"; // Ersetze DEIN_OPENMETEO_API_KEY durch deinen eigenen API-Schlüssel von OpenMeteo
+          const apiKey = "OPENMETEO_API_KEY"; // Ersetzen von OPENMETEO_API_KEY durch einen API-Schlüssel von OpenMeteo
           const apiUrl = `https://api.openmeteo.io/v1/forecast?latitude=${latitude}&longitude=${longitude}&hourly=1&timezone=Europe/Berlin&current_weather=true&timezone_offset=true&app_id=${apiKey}`;
 
           const response = await fetch(apiUrl);
