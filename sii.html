@@ -101,19 +101,10 @@
         },
       });
 
-      // Hinzufügen des WMS-Layers
-      var wmsLayer = L.tileLayer.wms('https://www.wms.nrw.de/gd/bk050?', {
-      layers: 'your_wms_layer_name',
-      format: 'image/png',
-      transparent: true
-      }).addTo(mymap);
-
-
       // Lade die GeoJSON-Datei und füge sie zur Karte hinzu
       $.getJSON("data.geojson", function (data) {
         L.geoJSON(data).addTo(mymap);
       });
-
       // JavaScript-Code für die Karte
       var mymap = L.map("map").setView([51.5, 7.5], 8); // Lade die Karte und setze die Koordinaten und Zoomstufe
 
