@@ -101,10 +101,10 @@
         },
       });
 
-      // Lade die GeoJSON-Datei und füge sie zur Karte hinzu
+      /* Lade die GeoJSON-Datei und füge sie zur Karte hinzu
       $.getJSON("data.geojson", function (data) {
         L.geoJSON(data).addTo(mymap);
-      });
+      }); */
       // JavaScript-Code für die Karte
       var mymap = L.map("map").setView([51.5, 7.5], 8); // Lade die Karte und setze die Koordinaten und Zoomstufe
 
@@ -124,7 +124,6 @@
         { name: "Wuppertal", coordinates: [51.2647, 7.1784] },
         { name: "Bielefeld", coordinates: [52.0291, 8.5424] },
         { name: "Bonn", coordinates: [50.7374, 7.0982] },
-        { name: "Münster", coordinates: [51.9607, 7.6261] },
         { name: "Gelsenkirchen", coordinates: [51.5177, 7.0857] },
         { name: "Mönchengladbach", coordinates: [51.1805, 6.4428] },
         { name: "Aachen", coordinates: [50.7753, 6.0839] },
@@ -140,6 +139,7 @@
         { name: "Paderborn", coordinates: [51.7191, 8.7544] },
         { name: "Recklinghausen", coordinates: [51.6141, 7.1976] },
         { name: "Bottrop", coordinates: [51.5215, 6.9443] },
+        { name: "Münster", coordinates: [51.9607, 7.6261] },
       ];
 
       // Marker für alle Städte hinzufügen
@@ -182,6 +182,8 @@
         console.log("Wetterwarnungen:", weatherData.alerts); // Falls verfügbar, ansonsten kann dieser Teil leer sein
       });
 
+      // Eigens erstelltest Polygon NRW´s
+      /*
       L.polygon([
         [52.0524625040471, 7.9664058121918515],
         [52.093851851138055, 7.904679722290439],
@@ -324,6 +326,16 @@
         [52.0524625040471, 7.9664058121918515],
       ])
         .bindPopup("NRW")
+        .addTo(mymap);
+        */
+
+      // Hinzufügen des WMS-Layers
+      var wmsLayer = L.tileLayer
+        .wms("https://www.wms.nrw.de/geobasis/wms_nw_dvg", {
+          layers: "nw_dvg_bld",
+          format: "image/png",
+          transparent: true,
+        })
         .addTo(mymap);
     </script>
   </body>
