@@ -144,35 +144,47 @@
 
       // Marker für alle Städte hinzufügen
       cities.forEach(function (cities) {
-        let marker = L.marker(cities.coordinates)
-            .addTo(mymap)
-        marker.on('click', function () {
-          getWeatherData(cities.name, cities.coordinates[0], cities.coordinates[1], marker);
-          });
+        let marker = L.marker(cities.coordinates).addTo(mymap);
+        marker.on("click", function () {
+          getWeatherData(
+            cities.name,
+            cities.coordinates[0],
+            cities.coordinates[1],
+            marker
+          );
+        });
       });
 
       // Funktion, um Wetterdaten von OpenMeteo API abzurufen
       async function getWeatherData(name, latitude, longitude, marker) {
-        let apiUrl = 'https://api.open-meteo.com/v1/forecast?latitude=' + latitude + '&longitude=' + longitude + '&current_weather=true';
+        let apiUrl =
+          "https://api.open-meteo.com/v1/forecast?latitude=" +
+          latitude +
+          "&longitude=" +
+          longitude +
+          "&current_weather=true";
         console.log(apiUrl);
         fetch(apiUrl)
-        .then(response => response.json())
-        .then(data => {
+          .then((response) => response.json())
+          .then((data) => {
             if (data && data.current_weather) {
-                var currentWeather = data.current_weather;
-                var popupContent = `Temperatur: ${currentWeather.temperature} °C <br>`;
-                popupContent += `Windgeschwindigkeit: ${currentWeather.windspeed} km/h`;
-                
-                // Popup-Inhalt aktualisieren
-                marker.bindPopup(name + '<br>' + popupContent).openPopup();
+              var currentWeather = data.current_weather;
+              var popupContent = `Temperatur: ${currentWeather.temperature} °C <br>`;
+              popupContent += `Windgeschwindigkeit: ${currentWeather.windspeed} km/h <br>`;
+              popupContent += `Windrichtung: ${currentWeather.winddirection} °<br>`;
+              // popupContent += `Niederschlagswahrscheinlichkeit: ${currentWeather.precipitation_probability} %<br>`;
+              // popupContent += `Wetterwarnungen: ${currentweatherData.alerts} !<br>`;
+
+              // Popup-Inhalt aktualisieren
+              marker.bindPopup(name + "<br>" + popupContent).openPopup();
             } else {
-                console.error('Ungültige Wetterdaten:', data);
+              console.error("Ungültige Wetterdaten:", data);
             }
-        })
-        .catch(error => {
-            console.error('Fehler beim Abrufen der Wetterdaten:', error);
-        });
-      } 
+          })
+          .catch((error) => {
+            console.error("Fehler beim Abrufen der Wetterdaten:", error);
+          });
+      }
 
       // Eigens erstelltest Polygon NRW´s
       /*
