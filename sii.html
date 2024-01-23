@@ -140,6 +140,7 @@
         { name: "Recklinghausen", coordinates: [51.6141, 7.1976] },
         { name: "Bottrop", coordinates: [51.5215, 6.9443] },
         { name: "Münster", coordinates: [51.9607, 7.6261] },
+        { name: "Brilon", coordinates: [51.3955, 8.5677] }
       ];
 
       // Marker für alle Städte hinzufügen
@@ -337,6 +338,15 @@
       var wmsLayer = L.tileLayer
         .wms("https://www.wms.nrw.de/geobasis/wms_nw_dvg", {
           layers: "nw_dvg_bld",
+          format: "image/png",
+          transparent: true,
+        })
+        .addTo(mymap);
+      
+      // Hinzufügen des WMS-Layers cities NRW
+      var wmsLayerCitiesNRW = L.tileLayer
+        .wms("http://localhost:8080/geoserver/cities/wms", {
+          layers: "cities_nrw_2",
           format: "image/png",
           transparent: true,
         })
